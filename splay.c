@@ -210,15 +210,15 @@ void splay_insert_many(int size) {
 int main() {
     splay_insert_many(1000);
 
-    void *not_found = splay_search(0, root);
-    printf("\n");
-    printf("%d %s\n", 0, not_found == NULL ? "not found" : "found");
-    printf("%d\n", root->val);
+    // void *not_found = splay_search(0, root);
+    // printf("\n");
+    // printf("%d %s\n", 0, not_found == NULL ? "not found" : "found");
+    // printf("%d\n", root->val);
 
-    not_found = splay_search(2, root);
-    printf("\n");
-    printf("%d %s\n", 2, not_found == NULL ? "not found" : "found");
-    printf("%d\n", root->val);
+    // not_found = splay_search(2, root);
+    // printf("\n");
+    // printf("%d %s\n", 2, not_found == NULL ? "not found" : "found");
+    // printf("%d\n", root->val);
 
     splay_free(root);
     return 0;
