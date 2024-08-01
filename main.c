@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "selection_sort.h"
 #include "insertion_sort.h"
+#include "merge_sort.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -9,7 +10,7 @@
 #include <limits.h>
 
 
-const int DEFAULT_ARR_LEN = 100000;
+const int DEFAULT_ARR_LEN = 1000;
 const int MAX_PRINT_LEN = 20;
 
 void test_splay() {
@@ -77,33 +78,67 @@ void test_insertion_sort(int *arr, int len) {
     free(arr_cpy);
 }
 
+void test_merge_sort(int *arr, int len) {
+    printf("\n==============\n");
+    printf("merge_sort\n");
+    printf("==============\n");
+    
+
+    int *arr_cpy = get_arr_copy(arr, len);
+    if (len <= MAX_PRINT_LEN) {
+        printf("\nsorting: ");
+        print_arr(arr_cpy, len);
+    }
+
+    clock_t start_time = clock();
+    merge_sort(arr_cpy, len);
+    clock_t end_time = clock();
+    double time_taken = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
+    if (len <= MAX_PRINT_LEN) {
+        printf("\nresult: ");
+        print_arr(arr_cpy, len);
+    }
+    printf("completion time: %f seconds\n", time_taken);
+
+    free(arr_cpy);
+}
+
 void test_sort_helper(int *arr, int len) {
-    test_selection_sort(arr, len);
-    test_insertion_sort(arr, len);
+    // test_selection_sort(arr, len);
+    // test_insertion_sort(arr, len);
+    test_merge_sort(arr, len);
 
     free(arr);
 }
 
 void test_sort_random(int len) {
-    printf("\n\ntesting sorting functions with random array of len = %d\n", len);
+    printf("\n\n=================================================================\n");
+    printf("testing sorting functions with random array of len = %d\n", len);
+    printf("=================================================================\n");
 
     test_sort_helper(get_arr(len), len);
 }
 
 void test_sort_sorted(int len) {
-    printf("\n\ntesting sorting functions with sorted array of len = %d\n", len);
+    printf("\n\n=================================================================\n");
+    printf("testing sorting functions with sorted array of len = %d\n", len);
+    printf("=================================================================\n");
 
     test_sort_helper(get_sorted_arr(len), len);
 }
 
 void test_sort_reverse_sorted(int len) {
-    printf("\n\ntesting sorting functions with reverse sorted array of len = %d\n", len);
+    printf("\n\n=================================================================\n");
+    printf("testing sorting functions with reverse sorted array of len = %d\n", len);
+    printf("=================================================================\n");
 
     test_sort_helper(get_reverse_sorted_arr(len), len);
 }
 
 void test_sort_half_sorted(int len) {
-    printf("\n\ntesting sorting functions with half sorted array of len = %d\n", len);
+    printf("\n\n=================================================================\n");
+    printf("testing sorting functions with half sorted array of len = %d\n", len);
+    printf("=================================================================\n");
 
     test_sort_helper(get_half_sorted_arr(len), len);
 }
