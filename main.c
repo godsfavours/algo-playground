@@ -3,6 +3,7 @@
 #include "selection_sort.h"
 #include "insertion_sort.h"
 #include "merge_sort.h"
+#include "quick_sort.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -12,6 +13,18 @@
 
 const int DEFAULT_ARR_LEN = 1000;
 const int MAX_PRINT_LEN = 20;
+
+struct fn {
+    const char *name;
+    void (*fn)(int *, int);
+};
+
+struct fn sorting_fns[] = {
+    {"selection_sort", &selection_sort}, 
+    {"insertion_sort", &insertion_sort},
+    {"merge_sort", &merge_sort},
+    {"quick_sort", &quick_sort},
+};
 
 void test_splay() {
     SplayTree *t = SplayTree_create();
@@ -29,84 +42,33 @@ void test_splay() {
     printf("%d\n", SplayTree_search(t, 6) != NULL);
 }
 
-void test_selection_sort(int *arr, int len) {
-    printf("\n==============\n");
-    printf("selection_sort\n");
-    printf("==============\n");
-
-    int *arr_cpy = get_arr_copy(arr, len);
-    if (len <= MAX_PRINT_LEN) {
-        printf("\nsorting: ");
-        print_arr(arr_cpy, len);
-    }
-
-    clock_t start_time = clock();
-    selection_sort(arr_cpy, len);
-    clock_t end_time = clock();
-    double time_taken = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
-    if (len <= MAX_PRINT_LEN) {
-        printf("\nresult: ");
-        print_arr(arr_cpy, len);
-    }
-    printf("completion time: %f seconds\n", time_taken);
-
-    free(arr_cpy);
-}
-
-void test_insertion_sort(int *arr, int len) {
-    printf("\n==============\n");
-    printf("insertion_sort\n");
-    printf("==============\n");
-    
-
-    int *arr_cpy = get_arr_copy(arr, len);
-    if (len <= MAX_PRINT_LEN) {
-        printf("\nsorting: ");
-        print_arr(arr_cpy, len);
-    }
-
-    clock_t start_time = clock();
-    insertion_sort(arr_cpy, len);
-    clock_t end_time = clock();
-    double time_taken = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
-    if (len <= MAX_PRINT_LEN) {
-        printf("\nresult: ");
-        print_arr(arr_cpy, len);
-    }
-    printf("completion time: %f seconds\n", time_taken);
-
-    free(arr_cpy);
-}
-
-void test_merge_sort(int *arr, int len) {
-    printf("\n==============\n");
-    printf("merge_sort\n");
-    printf("==============\n");
-    
-
-    int *arr_cpy = get_arr_copy(arr, len);
-    if (len <= MAX_PRINT_LEN) {
-        printf("\nsorting: ");
-        print_arr(arr_cpy, len);
-    }
-
-    clock_t start_time = clock();
-    merge_sort(arr_cpy, len);
-    clock_t end_time = clock();
-    double time_taken = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
-    if (len <= MAX_PRINT_LEN) {
-        printf("\nresult: ");
-        print_arr(arr_cpy, len);
-    }
-    printf("completion time: %f seconds\n", time_taken);
-
-    free(arr_cpy);
-}
-
 void test_sort_helper(int *arr, int len) {
-    // test_selection_sort(arr, len);
-    // test_insertion_sort(arr, len);
-    test_merge_sort(arr, len);
+    for (int i = 0; i < sizeof(sorting_fns) / sizeof(struct fn); i++) {
+        printf("\n==============\n");
+        printf("%s\n", sorting_fns[i].name);
+        printf("==============\n");
+        
+
+        int *arr_cpy = get_arr_copy(arr, len);
+        if (len <= MAX_PRINT_LEN) {
+            printf("\nsorting: ");
+            print_arr(arr_cpy, len);
+        }
+
+        clock_t start_time = clock();
+        insertion_sort(arr_cpy, len);
+        clock_t end_time = clock();
+        double time_taken = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
+        if (len <= MAX_PRINT_LEN) {
+            printf("\nresult: ");
+            print_arr(arr_cpy, len);
+        }
+        printf("completion time: %f seconds\n", time_taken);
+
+        free(arr_cpy);
+        test_merge_sort(arr, len);
+
+    }
 
     free(arr);
 }
