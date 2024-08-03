@@ -11,8 +11,8 @@
 #include <limits.h>
 
 
-const int DEFAULT_ARR_LEN = 1000;
-const int MAX_PRINT_LEN = 20;
+const int DEFAULT_ARR_LEN = 20;
+const int MAX_PRINT_LEN = 100;
 
 struct fn {
     const char *name;
@@ -20,8 +20,8 @@ struct fn {
 };
 
 struct fn sorting_fns[] = {
-    {"selection_sort", &selection_sort}, 
-    {"insertion_sort", &insertion_sort},
+    // {"selection_sort", &selection_sort}, 
+    // {"insertion_sort", &insertion_sort},
     {"merge_sort", &merge_sort},
     {"quick_sort", &quick_sort},
 };
@@ -56,7 +56,7 @@ void test_sort_helper(int *arr, int len) {
         }
 
         clock_t start_time = clock();
-        insertion_sort(arr_cpy, len);
+        sorting_fns[i].fn(arr_cpy, len);
         clock_t end_time = clock();
         double time_taken = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
         if (len <= MAX_PRINT_LEN) {
@@ -66,8 +66,6 @@ void test_sort_helper(int *arr, int len) {
         printf("completion time: %f seconds\n", time_taken);
 
         free(arr_cpy);
-        test_merge_sort(arr, len);
-
     }
 
     free(arr);
